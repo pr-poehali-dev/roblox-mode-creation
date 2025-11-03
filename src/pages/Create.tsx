@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Icon from '@/components/ui/icon';
+import GamePreview from '@/components/GamePreview';
 
 const Create = () => {
   const [description, setDescription] = useState('');
@@ -138,46 +139,50 @@ initializeGame()
               </Card>
 
               {generatedCode && (
-                <Card className="bg-card/50 backdrop-blur border-primary/30 glow animate-fade-in">
-                  <CardHeader>
-                    <CardTitle className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <Icon name="Code2" size={24} className="text-primary" />
-                        Сгенерированный код
+                <>
+                  <GamePreview gameType={description} />
+                  
+                  <Card className="bg-card/50 backdrop-blur border-primary/30 glow animate-fade-in">
+                    <CardHeader>
+                      <CardTitle className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <Icon name="Code2" size={24} className="text-primary" />
+                          Сгенерированный код
+                        </div>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            navigator.clipboard.writeText(generatedCode);
+                          }}
+                          className="border-primary/30 hover:bg-primary/10"
+                        >
+                          <Icon name="Copy" size={16} className="mr-2" />
+                          Копировать
+                        </Button>
+                      </CardTitle>
+                      <CardDescription>
+                        Готовый Lua-код для Roblox Studio
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <pre className="bg-background/80 p-4 rounded-lg overflow-x-auto text-sm border border-border/30">
+                        <code className="text-foreground font-mono">{generatedCode}</code>
+                      </pre>
+                      
+                      <div className="mt-4 flex gap-3">
+                        <Button className="flex-1 bg-secondary hover:bg-secondary/90">
+                          <Icon name="Download" size={18} className="mr-2" />
+                          Скачать .lua
+                        </Button>
+                        <Button variant="outline" className="flex-1 border-primary/30 hover:bg-primary/10">
+                          <Icon name="Share2" size={18} className="mr-2" />
+                          Поделиться
+                        </Button>
                       </div>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          navigator.clipboard.writeText(generatedCode);
-                        }}
-                        className="border-primary/30 hover:bg-primary/10"
-                      >
-                        <Icon name="Copy" size={16} className="mr-2" />
-                        Копировать
-                      </Button>
-                    </CardTitle>
-                    <CardDescription>
-                      Готовый Lua-код для Roblox Studio
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <pre className="bg-background/80 p-4 rounded-lg overflow-x-auto text-sm border border-border/30">
-                      <code className="text-foreground font-mono">{generatedCode}</code>
-                    </pre>
-                    
-                    <div className="mt-4 flex gap-3">
-                      <Button className="flex-1 bg-secondary hover:bg-secondary/90">
-                        <Icon name="Download" size={18} className="mr-2" />
-                        Скачать .lua
-                      </Button>
-                      <Button variant="outline" className="flex-1 border-primary/30 hover:bg-primary/10">
-                        <Icon name="Share2" size={18} className="mr-2" />
-                        Поделиться
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
+                    </CardContent>
+                  </Card>
+                </>
               )}
             </div>
 
